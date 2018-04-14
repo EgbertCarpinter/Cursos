@@ -5,10 +5,16 @@ const logger = require('morgan');
 
 const bodyParser = require('body-parser');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
+const mongoose = require('./mongoose');  
+
+const threadsRouter = require('./routes/threads');
 
 const app = express();
+
+if (process.env.NODE_ENV !== 'test') {
+
+  app.use(logger('dev'));
+}
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -16,8 +22,8 @@ app.use(bodyParser.json());
 
 
 
-app.use('/', index);
-app.use('/users', users);
+
+app.use('/threads', threadsRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
